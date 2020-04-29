@@ -48,46 +48,52 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Client $client
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
-        //
+        return view('admin.clients.show', compact('client'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Client $client
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Client $client) // Route Model Binding
     {
-        //
+        $clientType = $client->client_type;
+        return view('admin.clients.edit', compact('client', 'clientType'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Client $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Client $client)
     {
-        //
+        $data = $this->_validate($request);
+        $data['defaulter'] = $request->has('dafaulter');
+        $client->fill($data);
+        $client->save();
+        return redirect()->route('clients.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect()->route('clients.index');
     }
 
     protected function _validate(Request $request)
