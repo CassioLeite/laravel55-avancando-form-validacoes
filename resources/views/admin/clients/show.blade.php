@@ -6,9 +6,11 @@
     <a class="btn btn-default" href="{{ route('clients.index') }}">Voltar</a>
     
     <!-- Hidden form to DELETE record and "pass" browser's POST method -->
-    <form id="form-delete" style="display:none" method="post" action="{{ route('clients.destroy', ['client' => $client->id]) }}">
-        {{ csrf_field() }}
-        {{ method_field('DELETE') }}
+    <!-- <form id="form-delete" style="display:none" method="post" action="{{ route('clients.destroy', ['client' => $client->id]) }}"> -->
+    {{ Form::open(['route' => ['clients.destroy', $client->id], 'method' => 'DELETE', 'id' => 'form-delete']) }}    
+    {{ Form::close() }}
+        <!-- {{ csrf_field() }} -->
+        <!-- {{ method_field('DELETE') }} -->
     </form>
     <br/><br/>
     <table class="table table-bordered">

@@ -7,8 +7,9 @@
     <a href="{{ route('clients.create', ['client_type' => \App\Client::TYPE_LEGAL]) }}">Pessoa Jurídica</a>
     @include('admin.form._form_errors')
 
-    <form method="post" action="{{ route('clients.store') }}">
+    <!--<form method="post" action="{{ route('clients.store') }}">-->
+    {{ Form::open(['route' => 'clients.store']) }}    
         @include('admin.clients._form')
         <button type="submit" class="btn btn-default">Criar</button>
-    </form>
+    {{ Form::close() }}
 @endsection

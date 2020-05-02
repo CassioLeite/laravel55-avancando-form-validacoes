@@ -1,70 +1,73 @@
-        {{ csrf_field() }}
         <!-- <input type="hidden" name="_method" value="PUT"> -->
-        <input type="hidden" name="client_type" value="{{ $clientType }}">
-        <div class="form-group">
-            {{ Form::label('name') }}
-            {{ Form::text('name', old('name', $client->name), ['class' => 'form-control']) }}
-            <!--<label for="name">Nome</label>-->
-            <!--<input class="form-control" id="name" name="name" value="{{ old('name', $client->name) }}">-->
-        </div>
+        <!-- <input type="hidden" name="client_type" value="{{ $clientType }}"> -->
+        {{ Form::hidden('client_type', $clientType) }}
+        @component('admin.form._form_group', ['field' => 'name'])
+            {{ Form::label('name', 'Nome', ['class' => 'control-label']) }}
+            {{ Form::text('name', null, ['class' => 'form-control']) }}
+        @endcomponent
 
-        <div class="form-group">
-            <label for="document_number">Documento</label>
-            <input class="form-control" id="document_number" name="document_number" value="{{ old('document_number', $client->document_number) }}">
-        </div>
+        @component('admin.form._form_group', ['field' => 'document_number'])
+            {{ Form::label('document_number', 'Documento', ['class' => 'control-label']) }}
+            {{ Form::text('document_number', null, ['class' => 'form-control']) }}
+        @endcomponent
 
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input class="form-control" id="email" name="email" value="{{ old('email', $client->email) }}">
-        </div>
+        @component('admin.form._form_group', ['field' => 'email'])
+            {{ Form::label('email', 'E-mail', ['class' => 'control-label']) }}
+            {{ Form::email('email', null, ['class' => 'form-control']) }}
+        @endcomponent
 
-        <div class="form-group">
-            <label for="phone">Telefone</label>
-            <input class="form-control" id="phone" name="phone" value="{{ old('phone', $client->phone) }}">
-        </div>
+        @component('admin.form._form_group', ['field' => 'phone'])
+            {{ Form::label('phone', 'Telefone', ['class' => 'control-label']) }}
+            {{ Form::text('phone', null, ['class' => 'form-control']) }}
+        @endcomponent
+        
         @if($clientType == \App\Client::TYPE_INDIVIDUAL)
             @php
                 $maritalStatus = $client->marital_status;
             @endphp
-            <div class="form-group">
-                <label for="marital_status">Estado Civil</label>
-                <select class="form-control" id="marital_status" name="marital_status" value="{{ $maritalStatus }}">
-                    <option value="">Selecione o estado civil</option>
-                    <option value="1" {{ old('marital_status', $maritalStatus) == '1' ? 'selected="selected"':'' }} >Solteiro</option>
-                    <option value="2" {{ old('marital_status', $maritalStatus) == '2' ? 'selected="selected"':'' }} >Casado</option>
-                    <option value="3" {{ old('marital_status', $maritalStatus) == '3' ? 'selected="selected"':'' }} >Divorciado</option>
-                </select>
-            </div>
+            
+            @component('admin.form._form_group', ['field' => 'marital_status'])
+                {{ Form::label('marital_status', 'Estado civil', ['class' => 'control-label']) }}
+                {{ Form::select('marital_status', [
+                    '' => 'Selecione o estado civil',
+                    1  => 'Solteiro',
+                    2  => 'Casado',
+                    3  => 'Divorciado'  
+                    ], null, ['class' => 'form-control']) 
+                }}
+            @endcomponent
         
-            <div class="form-group">
-                <label for="date_birth">Data Nasc.</label>
-                <input class="form-control" type="date" id="date_birth" name="date_birth" value="{{ old('date_birth', $client->date_birth) }}">
-            </div>
+            @component('admin.form._form_group', ['field' => 'date_birth'])
+                {{ Form::label('date_birth', 'Data Nasc.', ['class' => 'control-label']) }}
+                {{ Form::date('date_birth', null, ['class' => 'form-control'])}}
+            @endcomponent
 
-            <div class="radio">
+            @component('admin.form._has_error', ['field' => 'sex'])
                 <label>
-                    <input type="radio" name="sex" value="m" {{ old('sex', $client->sex) == 'm'?'checked="checked"':'' }}> Masculino
+                    {{ Form::radio('sex', 'm') }} Masculino
                 </label>
-            </div>
+            @endcomponent
 
-            <div class="radio">
+            @component('admin.form._has_error', ['field' => 'sex'])
                 <label>
-                    <input type="radio" name="sex" value="f" {{ old('sex', $client->sex) == 'f'?'checked="checked"':'' }}> Feminino
+                    {{ Form::radio('sex', 'f') }} Feminino
                 </label>
-            </div>
+            @endcomponent
 
-            <div class="form-group">
-                <label for="physical_disability">Deficiência Física</label>
-                <input class="form-control" id="physical_disability" name="physical_disability" value="{{ old('physical_disability', $client->physical_disability) }}">
-            </div>
+            @include('admin.form._help_block', ['field' => 'sex'])
+
+            @component('admin.form._form_group', ['field' => 'physical_disability'])
+                {{ Form::label('physical_disability', 'Deficiência Física', ['class' => 'control-label']) }}
+                {{ Form::text('physical_disability', null, ['class' => 'form-control']) }}
+            @endcomponent
         @else
-            <div class="form-group">
-                <label for="company_name">Nome Fantasia</label>
-                <input class="form-control" id="company_name" name="company_name" value="{{ old('company_name', $client->company_name) }}">
-            </div>
+            @component('admin.form._form_group', ['field' => 'company_name'])
+                {{ Form::label('company_name', 'Nome Fantasia', ['class' => 'control-label']) }}
+                {{ Form::text('company_name', null, ['class' => 'form-control']) }}
+            @endcomponent
         @endif
-        <div class="checkbox">
-            <label>
-                <input name="defaulter" type="checkbox" {{ old('defaulter', $client->defaulter) ? 'checked="checked"':'' }}> Inadimplente?
-            </label>
-        </div>
+            <div class="checkbox">
+                <label>
+                    {{ Form::checkbox('defaulter', 1) }} Inadimplente?
+                </label>
+            </div>

@@ -28,6 +28,7 @@ class ClientRequest extends FormRequest
         $documentNumberType = $clientType == Client::TYPE_INDIVIDUAL ? 'cpf' : 'cnpj';
         $client = $this->route('client');
         $clientId = $client instanceof Client ? $client->id : null;
+        //dd($client);
         $rules = [
             'name' => 'required|max:255',
             'document_number' => 'required|unique:clients,document_number, '. $clientId . '|document_number:' . $documentNumberType,
@@ -40,7 +41,7 @@ class ClientRequest extends FormRequest
             //'marital_status' => 'required|in:1,2,3',
             'marital_status' => 'required|in:'. $maritalStatus,
             'sex' => 'required|in:m,f',
-            'physical_desability' => 'max:255',
+            'physical_disability' => 'max:255',
         ];
         $rulesLegal = [
             'company_name' => 'required|max:255',

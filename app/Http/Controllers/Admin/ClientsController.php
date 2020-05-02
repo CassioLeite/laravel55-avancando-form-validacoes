@@ -40,7 +40,7 @@ class ClientsController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        $data = $request->only($request->rules());
+        $data = $request->only(array_keys($request->rules()));
         $data['defaulter'] = $request->has('defaulter');
         $data['client_type'] = Client::getClientType($request->client_type);
         Client::create($data);
@@ -81,8 +81,8 @@ class ClientsController extends Controller
      */
     public function update(ClientRequest $request, Client $client)
     {
-        $data = $request->only($request->rules());
-        $data['defaulter'] = $request->has('dafaulter');
+        $data = $request->only(array_keys($request->rules()));
+        $data['defaulter'] = $request->has('defaulter');
         $client->fill($data);
         $client->save();
         //\Session::flash('message', 'Cliente alterado com sucesso.');
