@@ -104,7 +104,7 @@ class ClientsController extends Controller
         $clientId = $client instanceof Client ? $client->id : null;
         $rules = [
             'name' => 'required|max:255',
-            'document_number' => 'required|unique:clients,document_number, '. $clientId . '|document_number:' . $documentNumberType,
+            'document_number' => 'required|unique:clients, document_number, '. $clientId . '|document_number:' . $documentNumberType,
             'email' => 'required|email',
             'phone' => 'required',
         ];
