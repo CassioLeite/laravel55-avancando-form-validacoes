@@ -180,5 +180,6 @@ return [
         'remember'              => 'lembrar-se de mim',
         'document_number'       => 'documento',
         'marital_status'        => 'estado civil',
+        'date_birth'            => 'data de nascimento',
     ],
 ];
