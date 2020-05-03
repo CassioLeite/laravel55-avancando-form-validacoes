@@ -17,7 +17,7 @@ class ClientsController extends Controller
     public function index()
     {
         \Session::flash('chave', 'valor');
-        $clients = Client::all();
+        $clients = Client::paginate(4);
         return view('admin.clients.index', compact('clients'));
     }
 
